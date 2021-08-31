@@ -24,7 +24,19 @@ public class EmployeeManagementSystem{
 	public void setEmployees(ArrayList<Employee> emp) {
 		allEmps = emp;
 	}
-	
+	public void searchByDepartment() {
+		//prints employee based on department
+		String dep ="";
+		Scanner in = new Scanner(System.in);
+		int counter = 0;
+		System.out.println("Enter Department to find");
+		dep = in.nextLine();
+		int cc = allEmps.size();
+		for(int i=0; i<cc;i++) {
+			if(allEmps.get(i).department.equals(dep)) {System.out.println(allEmps.get(i).printEmployee()); counter++;}
+		}
+		if(counter == 0) { System.out.println("No Employees found in department: " + dep );}
+	}
 	public void addEmployee() throws EmployeeException, EmployeeIDException{
 		Scanner in = new Scanner(System.in);
 		Employee myEmp = new Employee();
@@ -246,23 +258,27 @@ public class EmployeeManagementSystem{
 					System.out.println("Thank you. Goodbye");
 					break;
 				case 1:
-					System.out.println("<--All Current Employees: ");
-					empie.printAllEmps();
+					helpMe();
 					break;
 				case 2: 
 					System.out.println("<--Updating Employee-->");
 					empie.updateEmployee();
 					break;
 				case 3:
-					helpMe();
+					System.out.println("<--Adding an Employee-->");
+					empie.addEmployee();
 					break;
 				case 4: 
 					System.out.println("<--Removing Employee-->");
 					empie.removeEmployee();
 					break;
 				case 5: 
-					System.out.println("<--Adding an Employee-->");
-					empie.addEmployee();
+					System.out.println("<--All Current Employees: ");
+					empie.printAllEmps();
+					break;
+				case 6:
+					System.out.println("<--Searching by Department-->");
+					empie.searchByDepartment();
 					break;
 				}
 				
@@ -280,10 +296,11 @@ public class EmployeeManagementSystem{
 	public static void helpMe() {
 		System.out.println("[help]");
 		System.out.println("0: Save and Quit");
-		System.out.println("1: Print all Employees");
+		System.out.println("1: Help with commands");
 		System.out.println("2: Update an Employee");
-		System.out.println("3: Help with commands");
+		System.out.println("3: Add an Employee");
 		System.out.println("4: Remove an Employee");
-		System.out.println("5: Add an Employee");
+		System.out.println("5: Print all Employees");
+		System.out.println("6: Search by Department");
 	}
 }
