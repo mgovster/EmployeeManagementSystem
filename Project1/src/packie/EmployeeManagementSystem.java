@@ -31,11 +31,13 @@ public class EmployeeManagementSystem{
 		int counter = 0;
 		System.out.println("Enter Department to find");
 		dep = in.nextLine();
+		System.out.println("\nDepartments:");
 		int cc = allEmps.size();
 		for(int i=0; i<cc;i++) {
 			if(allEmps.get(i).department.equals(dep)) {System.out.println(allEmps.get(i).printEmployee()); counter++;}
 		}
-		if(counter == 0) { System.out.println("No Employees found in department: " + dep );}
+		if(counter == 0) { System.out.println("No Employees found in department: " + dep + "\n");}
+		in.close();
 	}
 	public void addEmployee() throws EmployeeException, EmployeeIDException{
 		Scanner in = new Scanner(System.in);
@@ -53,23 +55,15 @@ public class EmployeeManagementSystem{
 			System.out.println("Enter Employee's ID number: ");
 			myEmp.ID = in.nextInt();
 			if ((validID(myEmp.ID))!=-1) { throw new EmployeeIDException(); }
-			
-			
-			
-			
-			//myEmp.department = in.nextLine();
 			System.out.println("Enter Employee's salary: "); 
-			myEmp.salary = in.nextDouble();
-			
-			
-			
+			myEmp.salary = in.nextDouble();			
 		} catch(InputMismatchException e) {
 			System.out.println("Error in input. Exiting");
 			e.printStackTrace();
 		}catch(NoSuchElementException e) {
 			e.printStackTrace();
 		} finally {
-			
+			in.close();
 		}
 		//-----------^input
 		System.out.println("Adding employee Mr/Mrs/Ms: " + myEmp.lastName);
@@ -93,22 +87,25 @@ public class EmployeeManagementSystem{
 		if((pos=validID(remID)) != -1) {
 			Employee cc = allEmps.get(pos);
 			allEmps.remove(cc);
+			in.close();
 			return true;
 		}
+		in.close();
 		return false;
+		
 	}
 	
 	public void updateEmployee() throws EmployeeException{
 		//enter employee ID to find
 		int myID;
+		Scanner in=null, innie = null;
 		try {
-			Scanner in = new Scanner(System.in);
+			in = new Scanner(System.in);
 			System.out.println("Enter Employee ID to update: ");
 			
 			myID = in.nextInt();
 			int choice=-1;
 			boolean facts = false;
-			Scanner innie;
 			for(int i=0; i< allEmps.size();i++) {
 				if(allEmps.get(i).getID() == myID) {
 					System.out.println("Employee Found: " + allEmps.get(i).printEmployee());
@@ -163,6 +160,9 @@ public class EmployeeManagementSystem{
 			
 		} catch(Exception e) {
 			e.printStackTrace();
+		} finally {
+			innie.close();
+			in.close();
 		}
 		
 	}
@@ -234,9 +234,7 @@ public class EmployeeManagementSystem{
 		EmployeeManagementSystem empie = new EmployeeManagementSystem(file);
 		//-----------------------------------------------
 		//at first run (here) we read the objects from the file (put it into the global arraylist)
-				
 		empie.readFromFile();
-		
 		//------------------------------------------------
 		//add while loop to be interactive with the file until user exits
 		
@@ -288,7 +286,7 @@ public class EmployeeManagementSystem{
 		}catch(InputMismatchException e) {
 			e.printStackTrace();
 		}finally {
-			;
+			in.close();
 		}
 		
 		
